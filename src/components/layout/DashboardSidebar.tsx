@@ -13,8 +13,8 @@ import { LogoutButton } from "./LogoutButton";
 export function DashboardSidebar() {
   return (
     <Sidebar>
-      <SidebarContent>
-        <div className="p-6">
+      <SidebarContent className="pl-0">
+        <div className="p-4">
           <h1 className="text-2xl font-bold text-[#F97316]">DietaZ</h1>
         </div>
         <SidebarGroup>
