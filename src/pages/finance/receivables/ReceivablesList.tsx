@@ -16,17 +16,19 @@ import { NewReceivableForm } from "@/components/finance/receivables/NewReceivabl
 
 interface Receivable {
   id: string;
+  description: string;
   studentName: string;
   email: string;
   dueDate: string;
   value: number;
-  status: "pending" | "paid" | "overdue";
+  status: "pending" | "paid" | "overdue" | "partial";
   paymentMethod?: string;
 }
 
 const mockReceivables: Receivable[] = [
   {
     id: "1",
+    description: "Mensalidade de Abril",
     studentName: "João Silva",
     email: "joao@email.com",
     dueDate: "2024-04-10",
@@ -36,6 +38,7 @@ const mockReceivables: Receivable[] = [
   },
   {
     id: "2",
+    description: "Mensalidade de Março",
     studentName: "Maria Santos",
     email: "maria@email.com",
     dueDate: "2024-03-15",
