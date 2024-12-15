@@ -6,6 +6,7 @@ import { AreaChart, Area, XAxis, YAxis, BarChart, Bar, PieChart, Pie, Cell } fro
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PayableForm } from "./PayableForm";
+import { PayablesCalendar } from "./PayablesCalendar";
 import { Plus, ChartBar, ChartPie, ChartLine, Calendar, Filter } from "lucide-react";
 import {
   Select,
@@ -116,98 +117,106 @@ export function AccountsPayable() {
           </Dialog>
         </div>
 
-        <div className="flex gap-4 mb-4">
-          <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4" />
-            <Select value={period} onValueChange={setPeriod}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Selecione o período" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="week">Última Semana</SelectItem>
-                <SelectItem value="month">Último Mês</SelectItem>
-                <SelectItem value="quarter">Último Trimestre</SelectItem>
-                <SelectItem value="year">Último Ano</SelectItem>
-              </SelectContent>
-            </Select>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div className="flex gap-4">
+              <div className="flex items-center gap-2">
+                <Filter className="w-4 h-4" />
+                <Select value={period} onValueChange={setPeriod}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Selecione o período" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="week">Última Semana</SelectItem>
+                    <SelectItem value="month">Último Mês</SelectItem>
+                    <SelectItem value="quarter">Último Trimestre</SelectItem>
+                    <SelectItem value="year">Último Ano</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant={chartType === 'area' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setChartType('area')}
+                >
+                  <ChartLine className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={chartType === 'bar' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setChartType('bar')}
+                >
+                  <ChartBar className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={chartType === 'pie' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setChartType('pie')}
+                >
+                  <ChartPie className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            <div className="h-[200px]">
+              <ChartContainer
+                className="h-full"
+                config={{
+                  payable: {
+                    theme: {
+                      light: "rgb(239, 68, 68)",
+                      dark: "rgb(239, 68, 68)",
+                    },
+                  },
+                }}
+              >
+                {renderChart()}
+              </ChartContainer>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <Button
-              variant={chartType === 'area' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setChartType('area')}
-            >
-              <ChartLine className="w-4 h-4" />
-            </Button>
-            <Button
-              variant={chartType === 'bar' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setChartType('bar')}
-            >
-              <ChartBar className="w-4 h-4" />
-            </Button>
-            <Button
-              variant={chartType === 'pie' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setChartType('pie')}
-            >
-              <ChartPie className="w-4 h-4" />
-            </Button>
-          </div>
+
+          <PayablesCalendar payables={mockPayables} />
         </div>
 
-        <div className="h-[200px] mb-6">
-          <ChartContainer
-            className="h-full"
-            config={{
-              payable: {
-                theme: {
-                  light: "rgb(239, 68, 68)",
-                  dark: "rgb(239, 68, 68)",
-                },
-              },
-            }}
-          >
-            {renderChart()}
-          </ChartContainer>
-        </div>
-
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Descrição</TableHead>
-              <TableHead>Categoria</TableHead>
-              <TableHead>Vencimento</TableHead>
-              <TableHead>Valor</TableHead>
-              <TableHead>Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {mockPayables.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.description}</TableCell>
-                <TableCell className="capitalize">{item.category}</TableCell>
-                <TableCell>
-                  {new Date(item.dueDate).toLocaleDateString('pt-BR')}
-                </TableCell>
-                <TableCell>R$ {item.value.toFixed(2)}</TableCell>
-                <TableCell>
-                  <span
-                    className={`inline-block px-2 py-1 rounded-full text-xs ${
-                      item.status === 'pago'
-                        ? 'bg-green-100 text-green-800'
-                        : item.status === 'atrasado'
-                        ? 'bg-red-100 text-red-800'
-                        : 'bg-yellow-100 text-yellow-800'
-                    }`}
-                  >
-                    {item.status}
-                  </span>
-                </TableCell>
+        <div className="mt-6">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Descrição</TableHead>
+                <TableHead>Categoria</TableHead>
+                <TableHead>Vencimento</TableHead>
+                <TableHead>Valor</TableHead>
+                <TableHead>Status</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {mockPayables.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.description}</TableCell>
+                  <TableCell className="capitalize">{item.category}</TableCell>
+                  <TableCell>
+                    {new Date(item.dueDate).toLocaleDateString('pt-BR')}
+                  </TableCell>
+                  <TableCell>R$ {item.value.toFixed(2)}</TableCell>
+                  <TableCell>
+                    <span
+                      className={`inline-block px-2 py-1 rounded-full text-xs ${
+                        item.status === 'pago'
+                          ? 'bg-green-100 text-green-800'
+                          : item.status === 'atrasado'
+                          ? 'bg-red-100 text-red-800'
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}
+                    >
+                      {item.status}
+                    </span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </Card>
     </div>
   );
