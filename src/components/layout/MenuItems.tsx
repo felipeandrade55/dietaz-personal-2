@@ -1,4 +1,4 @@
-import { IconProps } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
@@ -15,14 +15,14 @@ interface DropdownItem {
 
 interface SubMenuItem {
   title: string;
-  icon: React.ComponentType<IconProps>;
+  icon: LucideIcon;
   path: string;
   dropdownItems: DropdownItem[];
 }
 
 interface MenuItem {
   title: string;
-  icon: React.ComponentType<IconProps>;
+  icon: LucideIcon;
   path?: string;
   submenu?: SubMenuItem[];
 }
