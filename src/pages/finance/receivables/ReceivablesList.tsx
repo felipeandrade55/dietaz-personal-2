@@ -10,6 +10,7 @@ interface Receivable {
   id: string;
   description: string;
   studentName: string;
+  email: string;
   dueDate: string;
   value: number;
   status: "pending" | "paid" | "overdue" | "partial";
@@ -21,6 +22,7 @@ const mockReceivables: Receivable[] = [
     id: "1",
     description: "Mensalidade Abril/2024",
     studentName: "João Silva",
+    email: "joao.silva@email.com",
     dueDate: "2024-04-10",
     value: 150.00,
     status: "pending",
@@ -30,6 +32,7 @@ const mockReceivables: Receivable[] = [
     id: "2",
     description: "Matrícula 2024",
     studentName: "Maria Santos",
+    email: "maria.santos@email.com",
     dueDate: "2024-03-15",
     value: 100.00,
     status: "paid",
@@ -39,6 +42,7 @@ const mockReceivables: Receivable[] = [
     id: "3",
     description: "Mensalidade Março/2024",
     studentName: "Pedro Oliveira",
+    email: "pedro.oliveira@email.com",
     dueDate: "2024-03-10",
     value: 150.00,
     status: "overdue",
