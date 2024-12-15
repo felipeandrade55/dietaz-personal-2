@@ -1,4 +1,17 @@
-import { Dumbbell, Users, CreditCard, LayoutDashboard, ClipboardList, List, Receipt, FileText, CreditCard as CreditCardIcon } from "lucide-react";
+import { 
+  Dumbbell, 
+  Users, 
+  CreditCard, 
+  LayoutDashboard, 
+  ClipboardList, 
+  List, 
+  Receipt, 
+  FileText, 
+  CreditCard as CreditCardIcon,
+  UserPlus,
+  FolderOpen,
+  GraduationCap
+} from "lucide-react";
 
 export const menuItems = [
   {
@@ -8,20 +21,22 @@ export const menuItems = [
   },
   {
     title: "Cadastros",
-    icon: ClipboardList,
+    icon: FolderOpen,
     submenu: [
       {
         title: "Alunos",
-        icon: Users,
+        icon: GraduationCap,
         path: "/cadastros/alunos",
         dropdownItems: [
           {
             title: "Novo Aluno",
             path: "/cadastros/alunos/novo",
+            icon: UserPlus,
           },
           {
             title: "Lista de Alunos",
             path: "/cadastros/alunos/lista",
+            icon: List,
           },
         ],
       },
