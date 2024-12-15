@@ -1,5 +1,6 @@
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import { FinancialSummary } from "@/components/finance/FinancialSummary";
+import { FinancialKPIs } from "@/components/finance/dashboard/FinancialKPIs";
+import { FinancialReports } from "@/components/finance/dashboard/FinancialReports";
 import { AccountsReceivable } from "@/components/finance/AccountsReceivable";
 import { AccountsPayable } from "@/components/finance/AccountsPayable";
 import { TuitionManagement } from "@/components/finance/tuition/TuitionManagement";
@@ -13,7 +14,9 @@ export default function Finance() {
           <p className="text-gray-600">Gerencie suas finanças de forma eficiente</p>
         </div>
 
-        <FinancialSummary />
+        <FinancialKPIs />
+        
+        <FinancialReports />
 
         <TuitionManagement />
 
