@@ -18,19 +18,19 @@ const menuItems = [
     path: "/dashboard",
   },
   {
-    title: "Clients",
+    title: "Clientes",
     icon: Users,
     path: "/clients",
   },
   {
-    title: "Workouts",
+    title: "Planos",
     icon: Dumbbell,
     path: "/workouts",
   },
   {
-    title: "Payments",
+    title: "Financeiro",
     icon: CreditCard,
-    path: "/payments",
+    path: "/finance",
   },
 ];
 
@@ -41,7 +41,7 @@ export function DashboardSidebar() {
     <Sidebar>
       <SidebarContent>
         <div className="p-6">
-          <h1 className="text-2xl font-bold text-brand-600">FitnessPro</h1>
+          <h1 className="text-2xl font-bold text-[#F97316]">DietaZ</h1>
         </div>
         <SidebarGroup>
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
@@ -63,7 +63,7 @@ export function DashboardSidebar() {
             <SidebarMenuItem>
               <SidebarMenuButton>
                 <LogOut className="w-4 h-4 mr-2" />
-                <span>Logout</span>
+                <span>Sair</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
