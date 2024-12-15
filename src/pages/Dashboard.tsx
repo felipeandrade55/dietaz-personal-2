@@ -4,28 +4,28 @@ import { Users, CreditCard, TrendingUp, Calendar } from "lucide-react";
 
 const stats = [
   {
-    title: "Total Clients",
+    title: "Total de Alunos",
     value: "24",
     icon: Users,
-    trend: "+2 this month",
+    trend: "+2 este mês",
   },
   {
-    title: "Monthly Revenue",
-    value: "$4,200",
+    title: "Receita Mensal",
+    value: "R$ 4.200",
     icon: CreditCard,
-    trend: "+12% from last month",
+    trend: "+12% em relação ao mês anterior",
   },
   {
-    title: "Active Sessions",
+    title: "Sessões Ativas",
     value: "156",
     icon: Calendar,
-    trend: "18 this week",
+    trend: "18 esta semana",
   },
   {
-    title: "Growth Rate",
+    title: "Taxa de Crescimento",
     value: "12%",
     icon: TrendingUp,
-    trend: "+2% from last month",
+    trend: "+2% em relação ao mês anterior",
   },
 ];
 
@@ -34,8 +34,8 @@ export default function Dashboard() {
     <DashboardLayout>
       <div className="space-y-8">
         <div>
-          <h2 className="text-3xl font-bold text-gray-800">Welcome back, Trainer!</h2>
-          <p className="text-gray-600">Here's what's happening with your business today.</p>
+          <h2 className="text-3xl font-bold text-gray-800">Bem-vindo(a) de volta!</h2>
+          <p className="text-gray-600">Confira o desempenho do seu negócio hoje.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -57,18 +57,16 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Recent Payments</h3>
+            <h3 className="text-lg font-semibold mb-4">Pagamentos Recentes</h3>
             <div className="space-y-4">
-              {/* Placeholder for payments list */}
-              <p className="text-gray-500">No recent payments to display</p>
+              <p className="text-gray-500">Nenhum pagamento recente para exibir</p>
             </div>
           </Card>
 
           <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Upcoming Sessions</h3>
+            <h3 className="text-lg font-semibold mb-4">Próximas Sessões</h3>
             <div className="space-y-4">
-              {/* Placeholder for sessions list */}
-              <p className="text-gray-500">No upcoming sessions scheduled</p>
+              <p className="text-gray-500">Nenhuma sessão agendada</p>
             </div>
           </Card>
         </div>
