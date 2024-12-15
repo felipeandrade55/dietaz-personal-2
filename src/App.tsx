@@ -6,6 +6,8 @@ import NovoAluno from "./pages/cadastros/alunos/NovoAluno";
 import ListaAlunos from "./pages/cadastros/alunos/ListaAlunos";
 import HistoricoAluno from "./pages/cadastros/alunos/HistoricoAluno";
 import Plans from "./pages/Plans";
+import PayablesList from "./pages/finance/payables/PayablesList";
+import NewPayable from "./pages/finance/payables/NewPayable";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/finance" element={<Finance />} />
+        <Route path="/finance/payables/list" element={<PayablesList />} />
+        <Route path="/finance/payables/new" element={<NewPayable />} />
         <Route path="/students" element={<Students />} />
         <Route path="/cadastros/alunos/novo" element={<NovoAluno />} />
         <Route path="/cadastros/alunos/lista" element={<ListaAlunos />} />

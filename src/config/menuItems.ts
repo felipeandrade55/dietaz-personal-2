@@ -1,4 +1,4 @@
-import { Dumbbell, Users, CreditCard, LayoutDashboard, ClipboardList } from "lucide-react";
+import { Dumbbell, Users, CreditCard, LayoutDashboard, ClipboardList, List } from "lucide-react";
 
 export const menuItems = [
   {
@@ -40,6 +40,22 @@ export const menuItems = [
   {
     title: "Financeiro",
     icon: CreditCard,
-    path: "/finance",
+    submenu: [
+      {
+        title: "Contas a Pagar",
+        icon: List,
+        path: "/finance/payables",
+        dropdownItems: [
+          {
+            title: "Nova Conta",
+            path: "/finance/payables/new",
+          },
+          {
+            title: "Lista de Contas",
+            path: "/finance/payables/list",
+          },
+        ],
+      },
+    ],
   },
 ];
