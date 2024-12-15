@@ -1,15 +1,10 @@
-import { Dumbbell, Users, CreditCard, LayoutDashboard, ClipboardList } from "lucide-react";
+import { Dumbbell, Users, CreditCard, LayoutDashboard } from "lucide-react";
 
 export const menuItems = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
     path: "/",
-  },
-  {
-    title: "Cadastros",
-    icon: ClipboardList,
-    submenu: [],
   },
   {
     title: "Alunos",
