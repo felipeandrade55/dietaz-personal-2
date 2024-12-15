@@ -5,6 +5,7 @@ import Students from "./pages/Students";
 import NovoAluno from "./pages/cadastros/alunos/NovoAluno";
 import ListaAlunos from "./pages/cadastros/alunos/ListaAlunos";
 import HistoricoAluno from "./pages/cadastros/alunos/HistoricoAluno";
+import Plans from "./pages/Plans";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/cadastros/alunos/novo" element={<NovoAluno />} />
         <Route path="/cadastros/alunos/lista" element={<ListaAlunos />} />
         <Route path="/cadastros/alunos/:id/historico" element={<HistoricoAluno />} />
+        <Route path="/workouts" element={<Plans />} />
       </Routes>
     </Router>
   );
