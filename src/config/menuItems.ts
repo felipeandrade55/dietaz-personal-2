@@ -13,11 +13,8 @@ export const menuItems = [
       {
         title: "Alunos",
         icon: UserPlus,
-        path: "/students",
-        dropdownItems: [
-          { title: "Novo Aluno", path: "/students/new" },
-          { title: "Lista de Alunos", path: "/students" },
-        ],
+        path: "/students/new",
+        dropdownItems: [],
       },
     ],
   },
