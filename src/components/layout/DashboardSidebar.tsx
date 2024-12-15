@@ -71,19 +71,21 @@ export function DashboardSidebar() {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   {item.submenu ? (
-                    <div className="space-y-2">
-                      <div className="flex items-center px-3 py-2">
-                        <item.icon className="w-4 h-4 mr-2" />
-                        <span>{item.title}</span>
-                      </div>
-                      <div className="pl-6 space-y-1">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <div className="flex items-center px-3 py-2 cursor-pointer hover:bg-sidebar-accent rounded-md">
+                          <item.icon className="w-4 h-4 mr-2" />
+                          <span>{item.title}</span>
+                        </div>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent side="right" className="w-48">
                         {item.submenu.map((subItem) => (
                           <DropdownMenu key={subItem.title}>
                             <DropdownMenuTrigger asChild>
-                              <SidebarMenuButton>
+                              <div className="flex items-center px-2 py-1.5 cursor-pointer hover:bg-accent rounded-sm">
                                 <subItem.icon className="w-4 h-4 mr-2" />
                                 <span>{subItem.title}</span>
-                              </SidebarMenuButton>
+                              </div>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent side="right" className="w-48">
                               {subItem.dropdownItems.map((dropdownItem) => (
@@ -97,8 +99,8 @@ export function DashboardSidebar() {
                             </DropdownMenuContent>
                           </DropdownMenu>
                         ))}
-                      </div>
-                    </div>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   ) : (
                     <SidebarMenuButton onClick={() => navigate(item.path)}>
                       <item.icon className="w-4 h-4 mr-2" />
