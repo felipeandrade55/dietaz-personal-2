@@ -17,6 +17,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
+import { sendPaymentEmail } from "@/utils/emailService";
 
 // Mock function to fetch students - replace with actual API call later
 const fetchStudents = async () => {
@@ -24,12 +25,22 @@ const fetchStudents = async () => {
     {
       id: "1",
       name: "João Silva",
-      plan: { name: "Plano Básico", price: 250.00 }
+      email: "joao@exemplo.com",
+      plan: { 
+        name: "Plano Básico", 
+        price: 250.00,
+        period: "mensal"
+      }
     },
     {
       id: "2",
       name: "Maria Santos",
-      plan: { name: "Plano Premium", price: 350.00 }
+      email: "maria@exemplo.com",
+      plan: { 
+        name: "Plano Premium", 
+        price: 350.00,
+        period: "mensal"
+      }
     }
   ];
 };
@@ -43,6 +54,7 @@ export default function TuitionGenerate() {
   const [paymentStatus, setPaymentStatus] = useState("");
   const [autoGenerate, setAutoGenerate] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [sendingEmails, setSendingEmails] = useState(false);
 
   const { data: students, isLoading } = useQuery({
     queryKey: ['students'],
@@ -50,7 +62,6 @@ export default function TuitionGenerate() {
   });
 
   useEffect(() => {
-    // Validate if all fields are filled
     const isValid = monthRef !== "" && 
                    dueDay !== "" && 
                    selectedStudents !== "" && 
@@ -58,16 +69,49 @@ export default function TuitionGenerate() {
     setIsFormValid(isValid);
   }, [monthRef, dueDay, selectedStudents, paymentStatus]);
 
-  const handleGenerateTuition = (event: React.FormEvent) => {
+  const handleGenerateTuition = async (event: React.FormEvent) => {
     event.preventDefault();
-    
-    toast({
-      title: "Mensalidades Geradas",
-      description: `As mensalidades foram geradas com sucesso! ${autoGenerate ? 'Geração automática ativada.' : ''}`,
-    });
-  };
+    setSendingEmails(true);
 
-  const currentMonth = format(new Date(), 'MMMM yyyy');
+    try {
+      // Filtrar alunos com base na seleção
+      const selectedStudentsList = selectedStudents === 'all' 
+        ? students 
+        : students?.filter(s => selectedStudents === 'active' /* adicionar lógica de filtro */);
+
+      if (!selectedStudentsList?.length) {
+        throw new Error('Nenhum aluno selecionado');
+      }
+
+      // Enviar e-mails para cada aluno
+      const emailPromises = selectedStudentsList.map(student => 
+        sendPaymentEmail({
+          to: student.email,
+          name: student.name,
+          planName: student.plan.name,
+          price: student.plan.price,
+          dueDate: `${dueDay}/${format(new Date(monthRef), 'MM/yyyy')}`,
+          period: student.plan.period
+        })
+      );
+
+      await Promise.all(emailPromises);
+
+      toast({
+        title: "Mensalidades Geradas",
+        description: `As mensalidades foram geradas e os e-mails enviados com sucesso! ${autoGenerate ? 'Geração automática ativada.' : ''}`,
+      });
+    } catch (error) {
+      console.error('Erro ao gerar mensalidades:', error);
+      toast({
+        title: "Erro ao gerar mensalidades",
+        description: "Ocorreu um erro ao gerar as mensalidades ou enviar os e-mails.",
+        variant: "destructive",
+      });
+    } finally {
+      setSendingEmails(false);
+    }
+  };
 
   return (
     <DashboardLayout>
@@ -109,7 +153,7 @@ export default function TuitionGenerate() {
               <CalendarRange className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{currentMonth}</div>
+              <div className="text-2xl font-bold">{format(new Date(), 'MMMM yyyy')}</div>
             </CardContent>
           </Card>
 
@@ -201,8 +245,12 @@ export default function TuitionGenerate() {
                 </Label>
               </div>
 
-              <Button type="submit" className="w-full">
-                Gerar Mensalidades
+              <Button 
+                type="submit" 
+                className="w-full"
+                disabled={sendingEmails || !isFormValid}
+              >
+                {sendingEmails ? "Enviando e-mails..." : "Gerar Mensalidades"}
               </Button>
             </form>
           </CardContent>
