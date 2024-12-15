@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
+import { useState, useEffect } from "react";
 
 // Mock function to fetch students - replace with actual API call later
 const fetchStudents = async () => {
@@ -35,19 +37,33 @@ const fetchStudents = async () => {
 export default function TuitionGenerate() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [monthRef, setMonthRef] = useState(format(new Date(), 'yyyy-MM'));
+  const [dueDay, setDueDay] = useState("");
+  const [selectedStudents, setSelectedStudents] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("");
+  const [autoGenerate, setAutoGenerate] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const { data: students, isLoading } = useQuery({
     queryKey: ['students'],
     queryFn: fetchStudents,
   });
 
+  useEffect(() => {
+    // Validate if all fields are filled
+    const isValid = monthRef !== "" && 
+                   dueDay !== "" && 
+                   selectedStudents !== "" && 
+                   paymentStatus !== "";
+    setIsFormValid(isValid);
+  }, [monthRef, dueDay, selectedStudents, paymentStatus]);
+
   const handleGenerateTuition = (event: React.FormEvent) => {
     event.preventDefault();
     
-    // Mock success message - replace with actual API call later
     toast({
       title: "Mensalidades Geradas",
-      description: "As mensalidades foram geradas com sucesso!",
+      description: `As mensalidades foram geradas com sucesso! ${autoGenerate ? 'Geração automática ativada.' : ''}`,
     });
   };
 
@@ -124,7 +140,8 @@ export default function TuitionGenerate() {
                   <Input
                     id="month"
                     type="month"
-                    defaultValue={format(new Date(), 'yyyy-MM')}
+                    value={monthRef}
+                    onChange={(e) => setMonthRef(e.target.value)}
                   />
                 </div>
 
@@ -136,12 +153,14 @@ export default function TuitionGenerate() {
                     min="1"
                     max="31"
                     placeholder="Ex: 10"
+                    value={dueDay}
+                    onChange={(e) => setDueDay(e.target.value)}
                   />
                 </div>
 
                 <div className="space-y-2">
                   <Label>Alunos</Label>
-                  <Select defaultValue="all">
+                  <Select value={selectedStudents} onValueChange={setSelectedStudents}>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione os alunos" />
                     </SelectTrigger>
@@ -155,7 +174,7 @@ export default function TuitionGenerate() {
 
                 <div className="space-y-2">
                   <Label>Status do Pagamento</Label>
-                  <Select defaultValue="pending">
+                  <Select value={paymentStatus} onValueChange={setPaymentStatus}>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione o status" />
                     </SelectTrigger>
@@ -165,6 +184,21 @@ export default function TuitionGenerate() {
                     </SelectContent>
                   </Select>
                 </div>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="autoGenerate"
+                  checked={autoGenerate}
+                  onCheckedChange={(checked) => setAutoGenerate(checked as boolean)}
+                  disabled={!isFormValid}
+                />
+                <Label
+                  htmlFor="autoGenerate"
+                  className={!isFormValid ? "text-muted-foreground" : ""}
+                >
+                  Gerar mensalidades automaticamente
+                </Label>
               </div>
 
               <Button type="submit" className="w-full">
