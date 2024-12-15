@@ -1,4 +1,4 @@
-import { Dumbbell, Users, CreditCard, LayoutDashboard, LogOut } from "lucide-react";
+import { Dumbbell, Users, CreditCard, LayoutDashboard, LogOut, UserPlus, ClipboardList } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -15,7 +15,18 @@ const menuItems = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
-    path: "/dashboard",
+    path: "/",
+  },
+  {
+    title: "Cadastros",
+    icon: ClipboardList,
+    submenu: [
+      {
+        title: "Alunos",
+        icon: UserPlus,
+        path: "/students",
+      },
+    ],
   },
   {
     title: "Clientes",
@@ -49,10 +60,30 @@ export function DashboardSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton onClick={() => navigate(item.path)}>
-                    <item.icon className="w-4 h-4 mr-2" />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
+                  {item.submenu ? (
+                    <div className="space-y-2">
+                      <div className="flex items-center px-3 py-2">
+                        <item.icon className="w-4 h-4 mr-2" />
+                        <span>{item.title}</span>
+                      </div>
+                      <div className="pl-6 space-y-1">
+                        {item.submenu.map((subItem) => (
+                          <SidebarMenuButton
+                            key={subItem.title}
+                            onClick={() => navigate(subItem.path)}
+                          >
+                            <subItem.icon className="w-4 h-4 mr-2" />
+                            <span>{subItem.title}</span>
+                          </SidebarMenuButton>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <SidebarMenuButton onClick={() => navigate(item.path)}>
+                      <item.icon className="w-4 h-4 mr-2" />
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
