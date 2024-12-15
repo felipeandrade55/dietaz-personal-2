@@ -55,6 +55,7 @@ export const menuItems = [
   {
     title: "Financeiro",
     icon: CreditCard,
+    path: "/finance",
     submenu: [
       {
         title: "Contas a Pagar",
