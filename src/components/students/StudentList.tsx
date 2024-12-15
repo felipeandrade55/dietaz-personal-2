@@ -18,7 +18,10 @@ interface Student {
   name: string;
   email: string;
   phone: string;
-  plan: string;
+  plan: {
+    name: string;
+    price: number;
+  };
   status: "active" | "inactive";
 }
 
@@ -29,7 +32,10 @@ const mockStudents: Student[] = [
     name: "João Silva",
     email: "joao@email.com",
     phone: "(11) 99999-9999",
-    plan: "Mensal",
+    plan: {
+      name: "Plano Básico",
+      price: 250.00
+    },
     status: "active",
   },
   {
@@ -37,7 +43,10 @@ const mockStudents: Student[] = [
     name: "Maria Santos",
     email: "maria@email.com",
     phone: "(11) 88888-8888",
-    plan: "Trimestral",
+    plan: {
+      name: "Plano Premium",
+      price: 350.00
+    },
     status: "active",
   },
 ];
@@ -85,7 +94,14 @@ export function StudentList() {
               <TableCell>{student.name}</TableCell>
               <TableCell>{student.email}</TableCell>
               <TableCell>{student.phone}</TableCell>
-              <TableCell>{student.plan}</TableCell>
+              <TableCell>
+                <div className="flex flex-col">
+                  <span className="font-medium">{student.plan.name}</span>
+                  <span className="text-sm text-gray-500">
+                    R$ {student.plan.price.toFixed(2)}
+                  </span>
+                </div>
+              </TableCell>
               <TableCell>
                 <span
                   className={`px-2 py-1 rounded-full text-xs ${
