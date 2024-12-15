@@ -66,8 +66,8 @@ export function StudentList() {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col md:flex-row md:items-center gap-4 md:space-x-2">
-        <div className="relative flex-1">
+      <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+        <div className="relative flex-1 min-w-0">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
           <Input
             type="search"
@@ -79,66 +79,70 @@ export function StudentList() {
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nome</TableHead>
-              {!isMobile && (
-                <>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Telefone</TableHead>
-                </>
-              )}
-              <TableHead>Plano</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Ações</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredStudents.map((student) => (
-              <TableRow key={student.id}>
-                <TableCell className="font-medium">{student.name}</TableCell>
+      <div className="overflow-x-auto -mx-4 sm:mx-0 sm:rounded-lg border">
+        <div className="min-w-full align-middle">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="whitespace-nowrap">Nome</TableHead>
                 {!isMobile && (
                   <>
-                    <TableCell>{student.email}</TableCell>
-                    <TableCell>{student.phone}</TableCell>
+                    <TableHead className="whitespace-nowrap">Email</TableHead>
+                    <TableHead className="whitespace-nowrap">Telefone</TableHead>
                   </>
                 )}
-                <TableCell>
-                  <div className="flex flex-col">
-                    <span className="font-medium">{student.plan.name}</span>
-                    <span className="text-sm text-gray-500">
-                      R$ {student.plan.price.toFixed(2)}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span
-                    className={`inline-flex px-2 py-1 rounded-full text-xs ${
-                      student.status === "active"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    {student.status === "active" ? "Ativo" : "Inativo"}
-                  </span>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleHistoryClick(student.id)}
-                    className="w-full md:w-auto"
-                  >
-                    <History className="w-4 h-4 mr-2" />
-                    {isMobile ? "" : "Histórico"}
-                  </Button>
-                </TableCell>
+                <TableHead className="whitespace-nowrap">Plano</TableHead>
+                <TableHead className="whitespace-nowrap">Status</TableHead>
+                <TableHead className="text-right whitespace-nowrap">Ações</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredStudents.map((student) => (
+                <TableRow key={student.id} className="hover:bg-muted/50">
+                  <TableCell className="font-medium">{student.name}</TableCell>
+                  {!isMobile && (
+                    <>
+                      <TableCell className="max-w-[200px] truncate">
+                        {student.email}
+                      </TableCell>
+                      <TableCell>{student.phone}</TableCell>
+                    </>
+                  )}
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span className="font-medium truncate">{student.plan.name}</span>
+                      <span className="text-sm text-gray-500">
+                        R$ {student.plan.price.toFixed(2)}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <span
+                      className={`inline-flex px-2 py-1 rounded-full text-xs ${
+                        student.status === "active"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      {student.status === "active" ? "Ativo" : "Inativo"}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleHistoryClick(student.id)}
+                      className="w-full sm:w-auto"
+                    >
+                      <History className="w-4 h-4 sm:mr-2" />
+                      {!isMobile && "Histórico"}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
   );
