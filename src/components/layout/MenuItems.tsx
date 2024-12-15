@@ -5,6 +5,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 
@@ -48,14 +51,12 @@ export function MenuItems({ items }: MenuItemsProps) {
               </DropdownMenuTrigger>
               <DropdownMenuContent side="right" className="w-48">
                 {item.submenu.map((subItem) => (
-                  <DropdownMenu key={subItem.title}>
-                    <DropdownMenuTrigger asChild>
-                      <div className="flex items-center px-2 py-1.5 cursor-pointer hover:bg-accent rounded-sm">
-                        <subItem.icon className="w-4 h-4 mr-2" />
-                        <span>{subItem.title}</span>
-                      </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent side="right" className="w-48">
+                  <DropdownMenuSub key={subItem.title}>
+                    <DropdownMenuSubTrigger className="flex items-center">
+                      <subItem.icon className="w-4 h-4 mr-2" />
+                      <span>{subItem.title}</span>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent className="w-48">
                       {subItem.dropdownItems.map((dropdownItem) => (
                         <DropdownMenuItem
                           key={dropdownItem.title}
@@ -64,8 +65,8 @@ export function MenuItems({ items }: MenuItemsProps) {
                           {dropdownItem.title}
                         </DropdownMenuItem>
                       ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
