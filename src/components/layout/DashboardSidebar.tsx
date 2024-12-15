@@ -9,6 +9,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
 
 const menuItems = [
@@ -25,6 +31,10 @@ const menuItems = [
         title: "Alunos",
         icon: UserPlus,
         path: "/students",
+        dropdownItems: [
+          { title: "Novo Aluno", path: "/students/new" },
+          { title: "Lista de Alunos", path: "/students" },
+        ],
       },
     ],
   },
@@ -68,13 +78,24 @@ export function DashboardSidebar() {
                       </div>
                       <div className="pl-6 space-y-1">
                         {item.submenu.map((subItem) => (
-                          <SidebarMenuButton
-                            key={subItem.title}
-                            onClick={() => navigate(subItem.path)}
-                          >
-                            <subItem.icon className="w-4 h-4 mr-2" />
-                            <span>{subItem.title}</span>
-                          </SidebarMenuButton>
+                          <DropdownMenu key={subItem.title}>
+                            <DropdownMenuTrigger asChild>
+                              <SidebarMenuButton>
+                                <subItem.icon className="w-4 h-4 mr-2" />
+                                <span>{subItem.title}</span>
+                              </SidebarMenuButton>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent side="right" className="w-48">
+                              {subItem.dropdownItems.map((dropdownItem) => (
+                                <DropdownMenuItem
+                                  key={dropdownItem.title}
+                                  onClick={() => navigate(dropdownItem.path)}
+                                >
+                                  {dropdownItem.title}
+                                </DropdownMenuItem>
+                              ))}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         ))}
                       </div>
                     </div>
