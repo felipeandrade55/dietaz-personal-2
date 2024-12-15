@@ -1,6 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Users, User } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { PlanForm } from "./PlanForm";
+import { useToast } from "@/hooks/use-toast";
 
 interface WorkoutPlan {
   id: string;
@@ -15,6 +24,7 @@ interface WorkoutPlan {
 
 interface PlanCardProps {
   plan: WorkoutPlan;
+  onUpdate: (id: string, data: Partial<WorkoutPlan>) => void;
 }
 
 const periodLabels = {
@@ -23,7 +33,17 @@ const periodLabels = {
   semiannual: "Semestral",
 };
 
-export function PlanCard({ plan }: PlanCardProps) {
+export function PlanCard({ plan, onUpdate }: PlanCardProps) {
+  const { toast } = useToast();
+
+  const handleUpdate = (data: Partial<WorkoutPlan>) => {
+    onUpdate(plan.id, data);
+    toast({
+      title: "Plano atualizado",
+      description: "As alterações foram salvas com sucesso.",
+    });
+  };
+
   return (
     <Card className="hover:shadow-lg transition-shadow">
       <CardHeader>
@@ -62,7 +82,17 @@ export function PlanCard({ plan }: PlanCardProps) {
         </div>
         
         <div className="pt-4">
-          <Button className="w-full">Editar Plano</Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="w-full">Editar Plano</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Editar Plano</DialogTitle>
+              </DialogHeader>
+              <PlanForm onSubmit={handleUpdate} defaultValues={plan} />
+            </DialogContent>
+          </Dialog>
         </div>
       </CardContent>
     </Card>
