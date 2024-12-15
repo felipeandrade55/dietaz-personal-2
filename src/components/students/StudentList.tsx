@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { Search, History } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -9,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useNavigate } from "react-router-dom";
 
 // Tipo para representar um aluno
 interface Student {
@@ -41,12 +43,17 @@ const mockStudents: Student[] = [
 ];
 
 export function StudentList() {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [students, setStudents] = useState<Student[]>(mockStudents);
 
   const filteredStudents = students.filter((student) =>
     student.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleHistoryClick = (studentId: string) => {
+    navigate(`/cadastros/alunos/${studentId}/historico`);
+  };
 
   return (
     <div className="space-y-4">
@@ -69,6 +76,7 @@ export function StudentList() {
             <TableHead>Telefone</TableHead>
             <TableHead>Plano</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Ações</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -88,6 +96,16 @@ export function StudentList() {
                 >
                   {student.status === "active" ? "Ativo" : "Inativo"}
                 </span>
+              </TableCell>
+              <TableCell>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleHistoryClick(student.id)}
+                >
+                  <History className="w-4 h-4 mr-2" />
+                  Histórico
+                </Button>
               </TableCell>
             </TableRow>
           ))}
