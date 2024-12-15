@@ -17,7 +17,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const mockPayables = [
+type PayableStatusType = "pendente" | "parcial" | "pago" | "atrasado" | "cancelado";
+
+interface Payable {
+  id: number;
+  description: string;
+  dueDate: string;
+  value: number;
+  status: PayableStatusType;
+  category: string;
+  recurrence: string;
+}
+
+const mockPayables: Payable[] = [
   {
     id: 1,
     description: "Aluguel",
@@ -64,6 +76,15 @@ const mockChartData = [
 ];
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+const chartConfig = {
+  value: {
+    theme: {
+      light: "rgb(239, 68, 68)",
+      dark: "rgb(239, 68, 68)"
+    }
+  }
+};
 
 export function AccountsPayable() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -181,7 +202,7 @@ export function AccountsPayable() {
             </div>
 
             <div className="h-[200px]">
-              <ChartContainer className="h-full">
+              <ChartContainer className="h-full" config={chartConfig}>
                 {renderChart()}
               </ChartContainer>
             </div>
