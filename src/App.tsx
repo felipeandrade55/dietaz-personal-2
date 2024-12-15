@@ -13,12 +13,14 @@ import ReceivablesList from "./pages/finance/receivables/ReceivablesList";
 import NewReceivable from "./pages/finance/receivables/NewReceivable";
 import TuitionControl from "./pages/finance/tuition/TuitionControl";
 import TuitionGenerate from "./pages/finance/tuition/TuitionGenerate";
+import Index from "./pages/Index";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Index />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/finance" element={<Finance />} />
         
         {/* Contas a Pagar */}
