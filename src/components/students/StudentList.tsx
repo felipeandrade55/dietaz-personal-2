@@ -11,8 +11,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
-// Tipo para representar um aluno
 interface Student {
   id: string;
   name: string;
@@ -25,7 +25,6 @@ interface Student {
   status: "active" | "inactive";
 }
 
-// Dados mockados para exemplo
 const mockStudents: Student[] = [
   {
     id: "1",
@@ -53,6 +52,7 @@ const mockStudents: Student[] = [
 
 export function StudentList() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [searchTerm, setSearchTerm] = useState("");
   const [students, setStudents] = useState<Student[]>(mockStudents);
 
@@ -66,67 +66,80 @@ export function StudentList() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center space-x-2">
-        <Search className="w-4 h-4 text-gray-500" />
-        <Input
-          type="search"
-          placeholder="Buscar alunos..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
-        />
+      <div className="flex flex-col md:flex-row md:items-center gap-4 md:space-x-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <Input
+            type="search"
+            placeholder="Buscar alunos..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 w-full"
+          />
+        </div>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Nome</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Telefone</TableHead>
-            <TableHead>Plano</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Ações</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredStudents.map((student) => (
-            <TableRow key={student.id}>
-              <TableCell>{student.name}</TableCell>
-              <TableCell>{student.email}</TableCell>
-              <TableCell>{student.phone}</TableCell>
-              <TableCell>
-                <div className="flex flex-col">
-                  <span className="font-medium">{student.plan.name}</span>
-                  <span className="text-sm text-gray-500">
-                    R$ {student.plan.price.toFixed(2)}
-                  </span>
-                </div>
-              </TableCell>
-              <TableCell>
-                <span
-                  className={`px-2 py-1 rounded-full text-xs ${
-                    student.status === "active"
-                      ? "bg-green-100 text-green-800"
-                      : "bg-red-100 text-red-800"
-                  }`}
-                >
-                  {student.status === "active" ? "Ativo" : "Inativo"}
-                </span>
-              </TableCell>
-              <TableCell>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleHistoryClick(student.id)}
-                >
-                  <History className="w-4 h-4 mr-2" />
-                  Histórico
-                </Button>
-              </TableCell>
+      <div className="overflow-x-auto rounded-lg border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Nome</TableHead>
+              {!isMobile && (
+                <>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Telefone</TableHead>
+                </>
+              )}
+              <TableHead>Plano</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-right">Ações</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {filteredStudents.map((student) => (
+              <TableRow key={student.id}>
+                <TableCell className="font-medium">{student.name}</TableCell>
+                {!isMobile && (
+                  <>
+                    <TableCell>{student.email}</TableCell>
+                    <TableCell>{student.phone}</TableCell>
+                  </>
+                )}
+                <TableCell>
+                  <div className="flex flex-col">
+                    <span className="font-medium">{student.plan.name}</span>
+                    <span className="text-sm text-gray-500">
+                      R$ {student.plan.price.toFixed(2)}
+                    </span>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <span
+                    className={`inline-flex px-2 py-1 rounded-full text-xs ${
+                      student.status === "active"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
+                    {student.status === "active" ? "Ativo" : "Inativo"}
+                  </span>
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleHistoryClick(student.id)}
+                    className="w-full md:w-auto"
+                  >
+                    <History className="w-4 h-4 mr-2" />
+                    {isMobile ? "" : "Histórico"}
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }
