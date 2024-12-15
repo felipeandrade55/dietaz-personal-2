@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formSchema } from "@/components/alunos/schemas/alunoFormSchema";
 import { DadosPessoaisForm } from "@/components/alunos/DadosPessoaisForm";
 import { AnamneseForm } from "@/components/alunos/AnamneseForm";
+import { MedidasForm } from "@/components/alunos/MedidasForm";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 
@@ -58,6 +59,7 @@ export default function NovoAluno() {
               <TabsList className="mb-4">
                 <TabsTrigger value="dados-pessoais">Dados Pessoais</TabsTrigger>
                 <TabsTrigger value="anamnese">Ficha de Anamnese</TabsTrigger>
+                <TabsTrigger value="medidas">Medidas e Fotos</TabsTrigger>
               </TabsList>
 
               <Form {...form}>
@@ -68,6 +70,10 @@ export default function NovoAluno() {
 
                   <TabsContent value="anamnese">
                     <AnamneseForm form={form} />
+                  </TabsContent>
+
+                  <TabsContent value="medidas">
+                    <MedidasForm form={form} />
                   </TabsContent>
 
                   <div className="flex justify-end">

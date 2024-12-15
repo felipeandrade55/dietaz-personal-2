@@ -26,4 +26,27 @@ export const formSchema = z.object({
   atividadeFisica: z.string(),
   horarioTreino: z.string(),
   observacoes: z.string(),
+  
+  // Medidas
+  peso: z.string().optional(),
+  altura: z.string().optional(),
+  pescoco: z.string().optional(),
+  ombros: z.string().optional(),
+  torax: z.string().optional(),
+  bracoDireito: z.string().optional(),
+  bracoEsquerdo: z.string().optional(),
+  antebracoDireito: z.string().optional(),
+  antebracoEsquerdo: z.string().optional(),
+  cintura: z.string().optional(),
+  quadril: z.string().optional(),
+  coxaDireita: z.string().optional(),
+  coxaEsquerda: z.string().optional(),
+  panturrilhaDireita: z.string().optional(),
+  panturrilhaEsquerda: z.string().optional(),
+  
+  // Fotos
+  fotoFrente: z.any().optional(),
+  fotoCostas: z.any().optional(),
+  fotoLadoDireito: z.any().optional(),
+  fotoLadoEsquerdo: z.any().optional(),
 });
