@@ -1,4 +1,4 @@
-import { Dumbbell, Users, CreditCard, LayoutDashboard, ClipboardList, List } from "lucide-react";
+import { Dumbbell, Users, CreditCard, LayoutDashboard, ClipboardList, List, Receipt, FileText, CreditCard as CreditCardIcon } from "lucide-react";
 
 export const menuItems = [
   {
@@ -43,7 +43,7 @@ export const menuItems = [
     submenu: [
       {
         title: "Contas a Pagar",
-        icon: List,
+        icon: FileText,
         path: "/finance/payables",
         dropdownItems: [
           {
@@ -53,6 +53,36 @@ export const menuItems = [
           {
             title: "Lista de Contas",
             path: "/finance/payables/list",
+          },
+        ],
+      },
+      {
+        title: "Contas a Receber",
+        icon: Receipt,
+        path: "/finance/receivables",
+        dropdownItems: [
+          {
+            title: "Nova Cobrança",
+            path: "/finance/receivables/new",
+          },
+          {
+            title: "Lista de Cobranças",
+            path: "/finance/receivables/list",
+          },
+        ],
+      },
+      {
+        title: "Mensalidades",
+        icon: CreditCardIcon,
+        path: "/finance/tuition",
+        dropdownItems: [
+          {
+            title: "Gerar Mensalidades",
+            path: "/finance/tuition/generate",
+          },
+          {
+            title: "Controle de Mensalidades",
+            path: "/finance/tuition/control",
           },
         ],
       },
