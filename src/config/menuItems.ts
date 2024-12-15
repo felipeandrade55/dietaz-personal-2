@@ -55,8 +55,18 @@ export const menuItems = [
   {
     title: "Financeiro",
     icon: CreditCard,
-    path: "/finance",
     submenu: [
+      {
+        title: "Dashboard Financeiro",
+        icon: LayoutDashboard,
+        path: "/finance",
+        dropdownItems: [
+          {
+            title: "Visão Geral",
+            path: "/finance",
+          }
+        ]
+      },
       {
         title: "Contas a Pagar",
         icon: FileText,
