@@ -6,6 +6,7 @@ import { formSchema } from "./schemas/alunoFormSchema";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlanoForm } from "./PlanoForm";
+import { AcademiaForm } from "./AcademiaForm";
 
 type DadosPessoaisFormProps = {
   form: UseFormReturn<z.infer<typeof formSchema>>;
@@ -40,6 +41,9 @@ export function DadosPessoaisForm({ form }: DadosPessoaisFormProps) {
         <h3 className="text-lg font-semibold mb-4">Informações do Plano</h3>
         <PlanoForm form={form} />
       </div>
+
+      {/* Academia */}
+      <AcademiaForm form={form} />
 
       {/* Informações Básicas */}
       <div className="border-t pt-6">

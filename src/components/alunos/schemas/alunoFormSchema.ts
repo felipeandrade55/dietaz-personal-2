@@ -16,6 +16,7 @@ export const formSchema = z.object({
   estado: z.string(),
   cep: z.string(),
   profissao: z.string(),
+  academia: z.string().min(1, "Selecione uma academia"),
   objetivos: z.string(),
   experienciaPrevia: z.string(),
   restricoesAlimentares: z.string(),
