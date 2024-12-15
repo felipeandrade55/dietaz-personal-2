@@ -8,6 +8,7 @@ import HistoricoAluno from "./pages/cadastros/alunos/HistoricoAluno";
 import Plans from "./pages/Plans";
 import PayablesList from "./pages/finance/payables/PayablesList";
 import NewPayable from "./pages/finance/payables/NewPayable";
+import { PaymentHistory } from "./components/finance/tuition/PaymentHistory";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/finance" element={<Finance />} />
         <Route path="/finance/payables/list" element={<PayablesList />} />
         <Route path="/finance/payables/new" element={<NewPayable />} />
+        <Route path="/finance/student/:studentId/history" element={<PaymentHistory />} />
         <Route path="/students" element={<Students />} />
         <Route path="/cadastros/alunos/novo" element={<NovoAluno />} />
         <Route path="/cadastros/alunos/lista" element={<ListaAlunos />} />

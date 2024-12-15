@@ -2,6 +2,7 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { FinancialSummary } from "@/components/finance/FinancialSummary";
 import { AccountsReceivable } from "@/components/finance/AccountsReceivable";
 import { AccountsPayable } from "@/components/finance/AccountsPayable";
+import { TuitionManagement } from "@/components/finance/tuition/TuitionManagement";
 
 export default function Finance() {
   return (
@@ -13,6 +14,8 @@ export default function Finance() {
         </div>
 
         <FinancialSummary />
+
+        <TuitionManagement />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <AccountsReceivable />
