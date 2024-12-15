@@ -12,23 +12,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Card } from "@/components/ui/card";
-import { Calendar, DollarSign, FileText, Tag } from "lucide-react";
+import { Calendar, DollarSign, FileText } from "lucide-react";
+import { PayableCategories } from "./payables/PayableCategories";
+import { PayableRecurrence } from "./payables/PayableRecurrence";
+import { payableStatuses } from "./payables/PayableStatus";
 
 const formSchema = z.object({
   description: z.string().min(3, "A descrição deve ter no mínimo 3 caracteres"),
   dueDate: z.string(),
   value: z.string().min(1, "Informe o valor"),
   category: z.string().min(1, "Selecione uma categoria"),
-  status: z.string().min(1, "Selecione um status"),
+  status: z.enum(Object.keys(payableStatuses) as [string, ...string[]]),
+  recurrence: z.string(),
+  installments: z.string().optional(),
 });
 
 export function PayableForm() {
@@ -43,6 +41,8 @@ export function PayableForm() {
       value: "",
       category: "",
       status: "pendente",
+      recurrence: "none",
+      installments: "",
     },
   });
 
@@ -50,7 +50,6 @@ export function PayableForm() {
     setIsSubmitting(true);
     console.log(values);
     
-    // Simula o salvamento
     setTimeout(() => {
       toast({
         title: "Conta cadastrada com sucesso!",
@@ -136,25 +135,13 @@ export function PayableForm() {
                 name="category"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="flex items-center gap-2">
-                      <Tag className="h-4 w-4" />
-                      Categoria
-                    </FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecione uma categoria" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="aluguel">Aluguel</SelectItem>
-                        <SelectItem value="energia">Energia Elétrica</SelectItem>
-                        <SelectItem value="agua">Água</SelectItem>
-                        <SelectItem value="internet">Internet</SelectItem>
-                        <SelectItem value="salarios">Salários</SelectItem>
-                        <SelectItem value="outros">Outros</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <FormLabel>Categoria</FormLabel>
+                    <FormControl>
+                      <PayableCategories
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -164,28 +151,45 @@ export function PayableForm() {
             <Card className="p-4">
               <FormField
                 control={form.control}
-                name="status"
+                name="recurrence"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecione o status" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="pendente">Pendente</SelectItem>
-                        <SelectItem value="pago">Pago</SelectItem>
-                        <SelectItem value="atrasado">Atrasado</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <FormLabel>Recorrência</FormLabel>
+                    <FormControl>
+                      <PayableRecurrence
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </Card>
           </div>
+
+          {form.watch("recurrence") !== "none" && (
+            <Card className="p-4">
+              <FormField
+                control={form.control}
+                name="installments"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Número de Parcelas</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        min="1"
+                        placeholder="Ex: 12"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </Card>
+          )}
         </div>
 
         <Button type="submit" className="w-full" disabled={isSubmitting}>

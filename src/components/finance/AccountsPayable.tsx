@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { PayableForm } from "./PayableForm";
 import { PayablesCalendar } from "./PayablesCalendar";
 import { Plus, ChartBar, ChartPie, ChartLine, Calendar, Filter } from "lucide-react";
+import { PayableStatus } from "./payables/PayableStatus";
 import {
   Select,
   SelectContent,
@@ -23,7 +24,8 @@ const mockPayables = [
     dueDate: "2024-03-10",
     value: 2000,
     status: "pago",
-    category: "aluguel"
+    category: "aluguel",
+    recurrence: "monthly"
   },
   {
     id: 2,
@@ -31,7 +33,26 @@ const mockPayables = [
     dueDate: "2024-03-15",
     value: 450,
     status: "pendente",
-    category: "energia"
+    category: "energia",
+    recurrence: "monthly"
+  },
+  {
+    id: 3,
+    description: "Internet",
+    dueDate: "2024-03-05",
+    value: 200,
+    status: "atrasado",
+    category: "internet",
+    recurrence: "monthly"
+  },
+  {
+    id: 4,
+    description: "Manutenção Equipamentos",
+    dueDate: "2024-03-20",
+    value: 800,
+    status: "parcial",
+    category: "manutencao",
+    recurrence: "none"
   }
 ];
 
@@ -160,17 +181,7 @@ export function AccountsPayable() {
             </div>
 
             <div className="h-[200px]">
-              <ChartContainer
-                className="h-full"
-                config={{
-                  payable: {
-                    theme: {
-                      light: "rgb(239, 68, 68)",
-                      dark: "rgb(239, 68, 68)",
-                    },
-                  },
-                }}
-              >
+              <ChartContainer className="h-full">
                 {renderChart()}
               </ChartContainer>
             </div>
@@ -187,6 +198,7 @@ export function AccountsPayable() {
                 <TableHead>Categoria</TableHead>
                 <TableHead>Vencimento</TableHead>
                 <TableHead>Valor</TableHead>
+                <TableHead>Recorrência</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
@@ -199,18 +211,9 @@ export function AccountsPayable() {
                     {new Date(item.dueDate).toLocaleDateString('pt-BR')}
                   </TableCell>
                   <TableCell>R$ {item.value.toFixed(2)}</TableCell>
+                  <TableCell className="capitalize">{item.recurrence}</TableCell>
                   <TableCell>
-                    <span
-                      className={`inline-block px-2 py-1 rounded-full text-xs ${
-                        item.status === 'pago'
-                          ? 'bg-green-100 text-green-800'
-                          : item.status === 'atrasado'
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}
-                    >
-                      {item.status}
-                    </span>
+                    <PayableStatus status={item.status} />
                   </TableCell>
                 </TableRow>
               ))}
