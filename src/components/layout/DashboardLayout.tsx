@@ -15,11 +15,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           <div className={`${isMobile ? 'px-2 py-4' : 'px-4 py-6'} h-full overflow-auto`}>
             {isMobile && (
               <div className="mb-4">
-                <SidebarTrigger asChild>
-                  <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" asChild>
+                  <SidebarTrigger>
                     <Menu className="h-6 w-6" />
-                  </Button>
-                </SidebarTrigger>
+                  </SidebarTrigger>
+                </Button>
               </div>
             )}
             <div className="max-w-[1400px] mx-auto">
