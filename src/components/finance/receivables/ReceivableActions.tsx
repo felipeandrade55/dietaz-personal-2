@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Mail, FileText, CheckCircle2, AlertCircle, Ban } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { sendPaymentEmail } from "@/utils/emailService";
 
 interface Receivable {
   id: string;
@@ -22,13 +23,25 @@ export function ReceivableActions({ receivable, onStatusChange }: ReceivableActi
 
   const handleSendReminder = async () => {
     try {
-      // Simulating email sending
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "Lembrete enviado",
-        description: `Email enviado para ${receivable.studentName}`,
-      });
+      const emailData = {
+        to: receivable.email,
+        name: receivable.studentName,
+        planName: "Mensalidade",
+        price: receivable.value,
+        dueDate: new Date(receivable.dueDate).toLocaleDateString('pt-BR'),
+        period: new Date(receivable.dueDate).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
+      };
+
+      const success = await sendPaymentEmail(emailData);
+
+      if (success) {
+        toast({
+          title: "Lembrete enviado",
+          description: `Email enviado para ${receivable.studentName}`,
+        });
+      } else {
+        throw new Error("Falha ao enviar email");
+      }
     } catch (error) {
       toast({
         title: "Erro ao enviar lembrete",
@@ -39,6 +52,15 @@ export function ReceivableActions({ receivable, onStatusChange }: ReceivableActi
   };
 
   const handleMarkAsPaid = () => {
+    if (receivable.status === "paid") {
+      toast({
+        title: "Aviso",
+        description: "Esta cobrança já está marcada como paga.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     onStatusChange(receivable.id, "paid");
     toast({
       title: "Pagamento registrado",
@@ -47,6 +69,24 @@ export function ReceivableActions({ receivable, onStatusChange }: ReceivableActi
   };
 
   const handleMarkAsOverdue = () => {
+    if (receivable.status === "overdue") {
+      toast({
+        title: "Aviso",
+        description: "Esta cobrança já está marcada como atrasada.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (receivable.status === "paid") {
+      toast({
+        title: "Aviso",
+        description: "Não é possível marcar como atrasada uma cobrança já paga.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     onStatusChange(receivable.id, "overdue");
     toast({
       title: "Status atualizado",
@@ -55,7 +95,16 @@ export function ReceivableActions({ receivable, onStatusChange }: ReceivableActi
   };
 
   const handleCancelReceivable = () => {
-    // Here you would typically call an API to cancel the receivable
+    if (receivable.status === "paid") {
+      toast({
+        title: "Aviso",
+        description: "Não é possível cancelar uma cobrança já paga.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Aqui você implementaria a lógica real de cancelamento
     toast({
       title: "Cobrança cancelada",
       description: `Cobrança de ${receivable.studentName} foi cancelada.`,
@@ -63,11 +112,29 @@ export function ReceivableActions({ receivable, onStatusChange }: ReceivableActi
   };
 
   const handleGenerateInvoice = () => {
-    // Here you would typically generate a PDF invoice
-    toast({
-      title: "Fatura gerada",
-      description: `Fatura para ${receivable.studentName} gerada com sucesso!`,
-    });
+    try {
+      // Aqui você implementaria a geração real da fatura
+      // Por exemplo, chamando uma API para gerar um PDF
+      
+      toast({
+        title: "Fatura gerada",
+        description: `Fatura para ${receivable.studentName} gerada com sucesso!`,
+      });
+
+      // Simular download do arquivo
+      const link = document.createElement('a');
+      link.href = '#';
+      link.download = `fatura_${receivable.id}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      toast({
+        title: "Erro ao gerar fatura",
+        description: "Não foi possível gerar a fatura no momento.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
