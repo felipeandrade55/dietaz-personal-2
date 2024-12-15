@@ -11,18 +11,20 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-white">
         <DashboardSidebar />
-        <main className={`flex-1 overflow-auto ${isMobile ? 'p-2' : 'pl-2 pr-4 py-6'}`}>
-          {isMobile && (
-            <div className="mb-4">
-              <SidebarTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
-                </Button>
-              </SidebarTrigger>
+        <main className="flex-1 relative overflow-y-auto">
+          <div className={`${isMobile ? 'px-2 py-4' : 'px-4 py-6'}`}>
+            {isMobile && (
+              <div className="mb-4">
+                <SidebarTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-6 w-6" />
+                  </Button>
+                </SidebarTrigger>
+              </div>
+            )}
+            <div className="max-w-[1400px] mx-auto">
+              {children}
             </div>
-          )}
-          <div className="max-w-[100vw] mx-auto">
-            {children}
           </div>
         </main>
       </div>
