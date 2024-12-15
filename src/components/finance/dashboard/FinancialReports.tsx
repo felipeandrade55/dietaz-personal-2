@@ -17,6 +17,30 @@ const expensesByCategory = [
   { categoria: "Marketing", valor: 1000 },
 ];
 
+const chartConfig = {
+  receita: {
+    label: "Receita",
+    theme: {
+      light: "#22c55e",
+      dark: "#22c55e"
+    }
+  },
+  despesa: {
+    label: "Despesa",
+    theme: {
+      light: "#ef4444",
+      dark: "#ef4444"
+    }
+  },
+  valor: {
+    label: "Valor",
+    theme: {
+      light: "#8884d8",
+      dark: "#8884d8"
+    }
+  }
+};
+
 export function FinancialReports() {
   return (
     <Tabs defaultValue="balance" className="space-y-4">
@@ -33,7 +57,7 @@ export function FinancialReports() {
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">
-              <ChartContainer>
+              <ChartContainer config={chartConfig}>
                 <AreaChart data={monthlyData}>
                   <XAxis dataKey="month" />
                   <YAxis />
@@ -66,7 +90,7 @@ export function FinancialReports() {
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">
-              <ChartContainer>
+              <ChartContainer config={chartConfig}>
                 <BarChart data={expensesByCategory}>
                   <XAxis dataKey="categoria" />
                   <YAxis />
@@ -86,7 +110,7 @@ export function FinancialReports() {
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">
-              <ChartContainer>
+              <ChartContainer config={chartConfig}>
                 <AreaChart data={monthlyData}>
                   <XAxis dataKey="month" />
                   <YAxis />
