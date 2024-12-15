@@ -5,6 +5,7 @@ import { z } from "zod";
 import { formSchema } from "./schemas/alunoFormSchema";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { PlanoForm } from "./PlanoForm";
 
 type DadosPessoaisFormProps = {
   form: UseFormReturn<z.infer<typeof formSchema>>;
@@ -34,8 +35,16 @@ export function DadosPessoaisForm({ form }: DadosPessoaisFormProps) {
         />
       </div>
 
+      {/* Informações do Plano */}
+      <div className="border-t pt-6">
+        <h3 className="text-lg font-semibold mb-4">Informações do Plano</h3>
+        <PlanoForm form={form} />
+      </div>
+
       {/* Informações Básicas */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="border-t pt-6">
+        <h3 className="text-lg font-semibold mb-4">Informações Básicas</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField
           control={form.control}
           name="nome"
@@ -185,10 +194,13 @@ export function DadosPessoaisForm({ form }: DadosPessoaisFormProps) {
             </FormItem>
           )}
         />
+        </div>
       </div>
 
       {/* Endereço */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="border-t pt-6">
+        <h3 className="text-lg font-semibold mb-4">Endereço</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField
           control={form.control}
           name="endereco"
@@ -244,6 +256,7 @@ export function DadosPessoaisForm({ form }: DadosPessoaisFormProps) {
             </FormItem>
           )}
         />
+        </div>
       </div>
     </div>
   );

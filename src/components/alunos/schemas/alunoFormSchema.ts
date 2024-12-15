@@ -27,6 +27,11 @@ export const formSchema = z.object({
   horarioTreino: z.string(),
   observacoes: z.string(),
   
+  // Campos do plano
+  planoId: z.string().min(1, "Selecione um plano"),
+  dataInicio: z.string().min(1, "Data de início é obrigatória"),
+  diaVencimento: z.string().min(1, "Dia do vencimento é obrigatório"),
+  
   // Medidas
   peso: z.string().optional(),
   altura: z.string().optional(),
