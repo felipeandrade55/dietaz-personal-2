@@ -11,35 +11,29 @@ interface WorkoutPlan {
   schedule: string;
   sessionsPerWeek: number;
   type: "individual" | "group";
+  description: string;
 }
 
 const mockPlans: WorkoutPlan[] = [
   {
     id: "1",
     name: "Plano Básico",
-    price: 99.90,
+    price: 250.00,
     period: "monthly",
     schedule: "06:00 - 22:00",
     sessionsPerWeek: 3,
-    type: "group"
+    type: "group",
+    description: "Acompanhamento personalizado do seu treino"
   },
   {
     id: "2",
     name: "Plano Premium",
-    price: 249.90,
+    price: 350.00,
     period: "monthly",
     schedule: "Horário Livre",
     sessionsPerWeek: 5,
-    type: "individual"
-  },
-  {
-    id: "3",
-    name: "Plano Trimestral",
-    price: 269.90,
-    period: "quarterly",
-    schedule: "06:00 - 22:00",
-    sessionsPerWeek: 3,
-    type: "group"
+    type: "individual",
+    description: "Treino + Plano alimentar personalizado + Suplementação"
   }
 ];
 

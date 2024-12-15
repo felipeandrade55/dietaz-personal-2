@@ -10,6 +10,7 @@ interface WorkoutPlan {
   schedule: string;
   sessionsPerWeek: number;
   type: "individual" | "group";
+  description: string;
 }
 
 interface PlanCardProps {
@@ -34,6 +35,7 @@ export function PlanCard({ plan }: PlanCardProps) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+        <p className="text-sm text-muted-foreground">{plan.description}</p>
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Calendar className="w-4 h-4" />
